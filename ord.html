@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>룰렛 항목</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #resultSpecial {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #resultNumber {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px; /* 버튼 간격 추가 */
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            width: 50px; /* 입력란 너비 설정 */
+        }
+    </style>
+</head>
+<body>
+    <h1>기본 룰</h1>
+    
+    <button onclick="spinRoulette()">룰렛 돌리기</button> <!-- 기본 항목 위의 버튼 -->
+    
+    <div id="result"></div> <!-- 선택된 항목을 표시할 div 추가 -->
+
+    <h1>상위</h1>
+
+    <label for="specialCount">개수 입력</label>
+    <input type="number" id="specialCount" min="1" value="1" /> <!-- 원하는 수 입력란 추가 --><br>
+    
+    <button onclick="spinSpecialRoulette()">룰렛 돌리기</button> <!-- 특별 항목 위의 버튼 -->
+    <div id="resultSpecial"></div> <!-- 특별 항목 결과 표시 -->
+
+    <h1>숫자</h1>
+
+    <label for="numberCount">개수 입력</label>
+    <input type="number" id="numberCount" min="1" value="10" /> <!-- 숫자 개수 입력란 기본값을 10으로 설정 --><br>
+    
+    <button onclick="spinNumberRoulette()">룰렛 돌리기</button> <!-- 숫자 룰렛 버튼 -->
+    
+    <div id="resultNumber"></div> <!-- 선택된 숫자를 표시할 div 추가 -->
+
+    <script>
+        function spinRoulette() {
+            const items = [
+                "너의 상위는",
+                "인생의 고도전",
+                "스토리 폭격전",
+                "신세계 보상치기",
+                "4인 강제전",
+                "다이스 룰",
+                "꼭 가야할 캐릭",
+                "악몽 원딜전(변질)"
+            ];
+            const randomIndex = Math.floor(Math.random() * items.length);
+            const result = items[randomIndex];
+            document.getElementById('result').innerText = `룰: ${result}`; // 선택된 항목 표시
+        }
+
+        function spinSpecialRoulette() {
+            const specialItems = [
+                "레드 필드",    "거프",
+                "레베카",       "드래곤",
+                "시노부",       "레일리",
+                "아인",         "로져",
+                "카타쿠리",     "빅맘",
+                "크로커다일",   "센고쿠",
+                "킹",           "가반",
+                "검은수염",     "시키",
+                "나미",         "제트",
+                "도플라밍고",    "카이도",  
+                "로빈",         "흰수염",
+                "로우",         "미호크",
+                "로쿠규",       "버기",
+                "루치",         "비비",
+                "루피",         "에이스",
+                "바질",         "오뎅",
+                "브룩",         "카번딧슈",
+                "상디",         "핸콕",
+                "샹크스",       "료우기",
+                "스네이크맨",   "미나토",
+                "시라호시",     "바쿠야",
+                "아오키지",     "부릉냐",
+                "아카이누",     "유카리",
+                "야마토",       "키쿄우",
+                "우솝",        "죠타로",
+                "조로",         "타츠마키",
+                "보니",         "히그마",
+                "징베",         "사보",
+                "키드",
+                "키자루",
+                "타시기",
+                "프랑키",
+                "후지토라"
+            ];
+            const count = parseInt(document.getElementById('specialCount').value) || 1; // 입력된 개수 가져오기
+            let results = [];
+            let availableItems = [...specialItems]; // 선택 가능한 항목 복사
+
+            for (let i = 0; i < count; i++) {
+                if (availableItems.length === 0) break; // 더 이상 선택할 항목이 없으면 종료
+                const randomIndex = Math.floor(Math.random() * availableItems.length);
+                results.push(availableItems[randomIndex]);
+                availableItems.splice(randomIndex, 1); // 선택된 항목 제거
+            }
+
+            document.getElementById('resultSpecial').innerText = `상위: ${results.join(', ')}`;
+        }
+
+    function spinNumberRoulette() {
+        const count = parseInt(document.getElementById('numberCount').value) || 10; // 입력된 개수 가져오기
+        const numbers = ["1", "2", "3", "4","5","6","7","8","9","10",]; // 1부터 4까지의 숫자 배열로 수정
+
+        // 입력된 개수에 따라 리스트의 범위를 줄임
+        const maxIndex = Math.min(count, numbers.length); // 최대 인덱스 계산 (입력된 개수)
+        const limitedNumbers = numbers.slice(0, maxIndex); // 리스트 줄이기
+
+        const randomIndex = Math.floor(Math.random() * limitedNumbers.length); // 줄인 리스트에서 랜덤 선택
+        const result = limitedNumbers[randomIndex]; // 선택된 숫자
+
+    // 숫자 개수가 4 이하일 경우 "너의 상위는"으로 출력
+        const outputText = count <= 5 ? `너의 상위는: ${result}` : `당신의 고도: ${result}`;
+        document.getElementById('resultNumber').innerText = outputText; // 선택된 숫자 표시
+}
+
+        document.getElementById('resultNumber').innerText = outputText; // 선택된 숫자 표시
+    </script>
+</body>
+</html>
